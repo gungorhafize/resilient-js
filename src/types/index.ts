@@ -58,10 +58,16 @@ export type ResilienceEvent =
       timestamp: number;
     };
 
+export interface ConcurrencyOptions {
+  limit: number;
+  queueLimit?: number;
+}
+
 export interface ResilientOptions {
   timeout?: number;
   retry?: RetryOptions;
   circuitBreaker?: CircuitBreakerOptions;
+  concurrency?: ConcurrencyOptions;
   fallback?: (error: unknown) => unknown | Promise<unknown>;
   onEvent?: (event: ResilienceEvent) => void;
 }

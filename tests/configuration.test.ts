@@ -66,6 +66,59 @@ describe("configuration", () => {
     ).toThrow(ConfigurationError);
   });
 
+    it("should reject a zero concurrency limit", () => {
+    expect(() =>
+      createResilient({
+        concurrency: {
+          limit: 0,
+        },
+      })
+    ).toThrow(ConfigurationError);
+  });
+
+  it("should reject a negative concurrency limit", () => {
+    expect(() =>
+      createResilient({
+        concurrency: {
+          limit: -1,
+        },
+      })
+    ).toThrow(ConfigurationError);
+  });
+
+  it("should reject a fractional concurrency limit", () => {
+    expect(() =>
+      createResilient({
+        concurrency: {
+          limit: 1.5,
+        },
+      })
+    ).toThrow(ConfigurationError);
+  });
+
+  it("should reject a negative queue limit", () => {
+    expect(() =>
+      createResilient({
+        concurrency: {
+          limit: 2,
+          queueLimit: -1,
+        },
+      })
+    ).toThrow(ConfigurationError);
+  });
+
+  it("should accept zero queue limit", () => {
+    expect(() =>
+      createResilient({
+        concurrency: {
+          limit: 2,
+          queueLimit: 0,
+        },
+      })
+    ).not.toThrow();
+  });
+
+
   it("should accept a valid configuration", () => {
     expect(() =>
       createResilient({

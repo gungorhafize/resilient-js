@@ -60,4 +60,23 @@ export function validateOptions(options: ResilientOptions): void {
       );
     }
   }
+
+    if (options.concurrency !== undefined) {
+    const { limit, queueLimit } = options.concurrency;
+
+    if (!Number.isInteger(limit) || limit <= 0) {
+      throw new ConfigurationError(
+        "concurrency.limit must be a positive integer"
+      );
+    }
+
+    if (
+      queueLimit !== undefined &&
+      (!Number.isInteger(queueLimit) || queueLimit < 0)
+    ) {
+      throw new ConfigurationError(
+        "concurrency.queueLimit must be a non-negative integer"
+      );
+    }
+  }
 }
